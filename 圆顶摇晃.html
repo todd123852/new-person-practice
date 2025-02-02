@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .circleTop {
+            display: flex;
+            width: 80%;
+            height: 70vh;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+            background-color: bisque;
+        }
+        .circleTop .mainCicrle {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-content: center;
+            position: relative;
+            margin: 10px;
+            box-shadow: 10px 20px 50px #f7b6a7;
+        }
+        .circleTop .mainCicrle .iconCirle {
+            display: flex;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: -40px;
+            width: 80px;
+            height: 80px;
+            font-size: 40px;
+            text-align: center;
+            line-height: 80px;
+            border-radius: 80px;
+            color: pink;
+            background-color: #fff;
+        }
+        /* 设置 icon 的圆角屋顶*/
+        .iconCirle::before {
+            content: '';
+            border-bottom: 5px solid transparent;
+            border-left: 5px solid transparent;
+            /* 把两个边改成隐形色，并且下方rotate旋转45度角 */ 
+            border-top: 5px solid pink;
+            border-right: 5px solid pink;
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-45deg);
+            width: 80px;
+            height: 80px;
+            border-radius: 80px;
+        }
+        .shake {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        .shake:hover {
+            animation: ss .1s linear infinite alternate;
+
+        }
+        .circleTop .mainCicrle .text {
+            width: 200px;
+            height: 180px;
+            border: 5px solid pink;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-radius: 10px;
+            background-color: #fff;
+        }
+        .circleTop .mainCicrle .text h3 {
+            color: pink;
+        }
+
+        /* rotate 旋转*/
+        @keyframes ss {
+            0%{ transform: rotate(10deg);}
+            100%{ transform: rotate(-10deg);}
+        }
+    </style>
+</head>
+<body>
+    <div class="circleTop">
+        <div class="mainCicrle">
+            <div class="iconCirle">
+                <div class="shake">
+                    <i class="bi bi-bell-fill"></i>
+                </div>
+            </div>
+            <div class="text">
+                <h3>金钩贝尔</h3>
+                <p>这里补充一个详细说明文案哦这里补充一个详细说明文案哦这里补充一个详细说明文案哦</p>
+            </div>
+        </div>
+        <div class="mainCicrle">
+            <div class="iconCirle">
+                <div class="shake">
+                    <i class="bi bi-hand-thumbs-up-fill"></i>
+                </div>
+            </div>
+            <div class="text">
+                <h3>给你一个赞</h3>
+                <p>这里补充一个详细说明文案哦这里补充一个详细说明文案哦这里补充一个详细说明文案哦</p>
+            </div>
+        </div>
+        <div class="mainCicrle">
+            <div class="iconCirle">
+                <div class="shake">
+                    <i class="bi bi-hammer"></i>
+                </div>
+            </div>
+            <div class="text">
+                <h3>敲尼玛</h3>
+                <p>这里补充一个详细说明文案哦这里补充一个详细说明文案哦这里补充一个详细说明文案哦</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
