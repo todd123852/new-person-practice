@@ -16,9 +16,6 @@ import Top from './components/Top.vue';
 </script>
 
 <style>
-input {
-  all: unset; /* CSS3 的簡寫方式，重置所有屬性 */
-}
 body {
   margin: 0;
 }

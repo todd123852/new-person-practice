@@ -163,7 +163,7 @@
                 <option value="上午">上午</option>
                 <option value="下午">下午</option>
             </select>
-            <button @click.prevent="subTime">提交</button>
+            <button type="button" @click.prevent="subTime" id="time-button" class="btn btn-primary">提交</button>
         </form>
         </div>
      <!-- 输入对话框 -->
@@ -171,12 +171,12 @@
             <span>输入对话(左): </span><br>
             <div class="type-area">
                 <textarea v-model="leftContent"></textarea>
-                <button @click="subFirstContent">提交</button>
+                <button  @click="subFirstContent" type="button" class="btn btn-primary">发送</button>
             </div>
             <span>输入对话(右): </span><br>
             <div class="type-area">
                 <textarea v-model="rightContent"></textarea>
-                <button @click="subSecondCotent">提交</button>
+                <button  @click="subSecondCotent" type="button" class="btn btn-primary">发送</button>
             </div>
         </div>
     <!-- 输入头像 -->
@@ -208,8 +208,8 @@
                 </form>
             </div>
             <div class="upload-button">
-                <button @click="delLeftAvator">删除</button>
-                <button @click="delRightAvator">删除</button>
+                <button @click="delLeftAvator" type="button" class="btn btn-danger">删除</button>
+                <button @click="delRightAvator" type="button" class="btn btn-danger">删除</button>
             </div>
         </div>
     </div>
@@ -218,7 +218,6 @@
     :imgRightUrl="imgRightUrl"
     :messages = messages
     @delMessage="delMessage"
-    @delTime="delTime"
     ></Content>
 </div>
 </template>
@@ -319,10 +318,12 @@ function subTime() {
 <style scoped>
     .father {
         display: flex;
+        position: relative;
         background: linear-gradient(blue, skyblue)
     }
     select {
-        margin: 2px;
+        font-family: sans-serif;
+        margin: 10px 3px 3px 3px;
     }
     .type-area {
         display: flex;
@@ -336,10 +337,6 @@ function subTime() {
         height: 50px; /* 设置高度 */
         font-size: 20px;
     }
-    .type-area button {
-        width: 70px;
-        height: 70px;
-    }
     input {
         padding: 5px;
         border: 2px solid #ccc; /* 設置邊框顏色和寬度 */
@@ -352,37 +349,38 @@ function subTime() {
         border-color: #007bff; /* 聚焦時改變邊框顏色 */
     }
     .main{
-        height: 600px;
         width: 500px;
+        height: 630px;
+        display: flex;
+        position: relative;
+        flex-direction: column;
+        justify-content: space-evenly;
     }
     .setTime{
         box-shadow: 0 0 10px rgba(0, 0, 0, 2);
         background-color: #a8e6c7;
-        padding: 10px;
-        margin: 5px;
+        padding: 10px 20px;
         border-radius: 20px;
     }
     .setTime button {
-        margin-left: 55px;
+        margin-left: 26px;
     }
     .setContent{
         box-shadow: 0 0 10px rgba(0, 0, 0, 2);
         background-color: #7ceeb5;
         padding: 10px;
-        margin: 5px;
         border-radius: 20px;
     }
     .setAvator{
         box-shadow: 0 0 10px rgba(0, 0, 0, 2);
         background-color: #4a8cb6;
         padding: 10px;
-        margin: 5px;
         border-radius: 20px;
     }
     .upload-button {
         display: flex;
         justify-content: space-around;
-        margin-top: 5px;
+        margin-top: 15px;
     }
     .upload-avator, .avator-text {
         display: flex;
@@ -396,9 +394,11 @@ function subTime() {
         cursor: pointer;
         text-align: center;
         font-size: 30px;
-        line-height: 80px;
         color: rgba(202, 194, 194, 0.781);;
         border-radius: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     .upload-avator img {
         width: 80px;
@@ -413,18 +413,11 @@ function subTime() {
     }
     span {
         font-family: "Microsoft YaHei", sans-serif;
-        height: 30px;
         font-size: 25px;
     }
     button {
         font-family: "Microsoft YaHei", sans-serif;
-        border-radius: 5px;
         font-size: 20px;
-        height: 32px;
-    }
-    button:hover {
-        color: rgb(126, 183, 239);
-        border-color: rgb(126, 183, 239);
-        cursor: pointer;
+
     }
 </style>

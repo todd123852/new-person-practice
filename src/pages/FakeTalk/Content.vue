@@ -10,7 +10,7 @@
                         <span>5G</span>
                         <i class="bi bi-reception-4"></i>
                         <i class="bi bi-wifi"></i>
-                        <i class="bi bi-battery-half"></i>
+                        <i class="bi bi-battery-half" id="battery"></i>
                     </div>
                 </div>
                 <div class="body" ref="chatContainer">
@@ -119,15 +119,17 @@ const emit = defineEmits(['delMessage'])
     .main {
         width: 800px;
         position: relative;
+        height: 100%; 
     }
     .container {
         width: 360px;
-        height: 600px;
+        height:630px;
         background-color: #fff;
         margin: 0 auto;
         position: relative;
         display: flex;
         flex-direction: column;
+        padding: 0;
     }
     .head {
         display: flex;
@@ -222,7 +224,9 @@ const emit = defineEmits(['delMessage'])
         border-radius: 15px;
         position: relative;
     }
-
+    #battery {
+        font-size: 22px;
+    }
 
     .message {
         margin-top: 10px; /* 默认间距 */
@@ -271,7 +275,7 @@ const emit = defineEmits(['delMessage'])
     /* //////////////// foot /////////////// */
     .foot {
         position: relative;
-        height: 5%;
+        height: 8%;
         padding: 10px 5px;
         display: flex;
         align-items: center;
