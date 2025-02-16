@@ -3,7 +3,7 @@
         <div class="puzzleBox">
             <div v-for="piece in puzzles" :key="piece.id" class="puzzle" 
             :style="{ top: piece.top, left: piece.left, backgroundPosition: piece.position, opacity: piece.opacity,
-            backgroundImage:`url(../src/public/puzzle${photoNumber}.jpg)`}" 
+            backgroundImage:`url(${base}/src/public/puzzle${photoNumber}.jpg)`}" 
             @click="change(piece.index,piece.id)"
             >
             </div>
@@ -32,7 +32,7 @@ import { storeToRefs } from 'pinia';
 const puzzleStore = usePuzzleStore();
 const {readyGo,puzzles, hours, seconds,minutes,isComplete,photoNumber} = storeToRefs(puzzleStore);
 
-
+const base = process.env.NODE_ENV === 'production' ? 'new-person-practice':'..'
     puzzleStore.setOriginalPuzzle(3)
 
     onMounted(()=>{console.log(puzzles);})
