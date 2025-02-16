@@ -64,7 +64,7 @@ export default {
 
 <style scoped>
   .main-footer {
-    background-color: #5d5816;
+    background-color: rgb(0, 0, 0);
     height: 50vh;
   }
   .main-footer .footerItem {
@@ -137,7 +137,7 @@ export default {
     flex-direction: column;
   }
   .licenesImg {
-    background-color: #5d5816;
+    background-color: rgb(0, 0, 0);
     color: #fff;
     flex: 3;
   }

@@ -224,7 +224,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import Content from './content.vue';
+import Content from './Dialogue.vue';
 
 let year = ref(2025), month = ref(1), day = ref(1), hours = ref(2), minutes = ref(0)
 let weekday = ref('星期一')
@@ -319,7 +319,7 @@ function subTime() {
     .father {
         display: flex;
         position: relative;
-        background: linear-gradient(blue, skyblue)
+        background: linear-gradient(rgb(60, 130, 235), skyblue)
     }
     select {
         font-family: sans-serif;

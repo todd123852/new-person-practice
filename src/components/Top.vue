@@ -2,20 +2,12 @@
   <div class="mainheader">
         <div class="container">
             <a href="#" class="logo">
-                <img src="@/public/HOTTO.png" alt="">
+                <img src="@/public/Hotto.png" alt="">
             </a>
         </div>
         <nav>
-            <router-link 
-            to="/introduction" class="top-link" active-class="isYellow">
-            变壮的地方</router-link>
-            <router-link 
-            to="/faketalk" class="top-link" active-class="isYellow">
-            角斗场</router-link>
-            <router-link 
-            to="/" class="top-link" active-class="isYellow">
-            大宝剑</router-link>
-            <!-- 登录按钮 -->
+            <!-- 列表区 -->
+            <router-link v-for="list in topLists" :key="list.path" :to="list.path" class="top-link" active-class="isYellow">{{ list.title }}</router-link>
             <div class="topSearch">    
                 <button @click="showModal"
                 type="button" class="btn btn-primary" >
@@ -25,7 +17,7 @@
                      <div 
                      :class="{ show: isModalOpen }" v-show="isModalOpen"
                      class="modal fade" id="staticBackdrop" tabindex="-1" 
-                     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                     aria-labelledby="staticBackdropLabel">
                          <div class="modal-dialog">
                          <div class="modal-content">
                              <div class="modal-header">
@@ -67,12 +59,12 @@
                                          <!-- 密码 -->
                                          </div>
                                          <div class="input-group has-validation mb-3">
-                                             <i class="bi bi-key-fill input-group-text" id="login-password"></i>
+                                             <i class="bi bi-key-fill input-group-text" ></i>
                                              <input v-model="password" type="text" 
                                              @blur="verifyPsssword(password)"
                                              class="form-control" 
                                              :class="{'is-invalid': pwdInvalid }" 
-                                             id="password login-password" 
+                                             id="password" 
                                              placeholder="请输入密码">
                                              <div class="invalid-feedback">
                                                  请输入6位英文数字组合
@@ -110,7 +102,7 @@
                                          <div class="input-group has-validation mb-3">
                                              <i class="bi bi-key-fill input-group-text"></i>
                                              <input 
-                                             @blur="verifyPsssword(logPassword)"
+                                             @blur="verifyPsssword(logPassword),verifySecPsssword()" 
                                              v-model="logPassword" type="text" 
                                              class="form-control" 
                                              :class="{ 'is-invalid': pwdInvalid }" 
@@ -152,72 +144,43 @@
 </template>
 
 <script setup>
-
-import axios from 'axios';
 import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useloginRegistStore } from '@/store/loginRegist';
-import {Modal} from 'bootstrap'
 const loginRegistStore = useloginRegistStore()
-let {username, password,logUsername, logPassword,passwordAgain,loginOrLoading,registOrLoading, isModalOpen} = storeToRefs(loginRegistStore)
-// 账号密码提示是否合法
-let accInvalid = ref(false),pwdInvalid= ref(false),isnotSamepwd= ref(false), userInvalid = ref(false), userPwdInvalid = ref(false)
+let {username, password,logUsername, logPassword,passwordAgain,loginOrLoading,registOrLoading, isModalOpen,accInvalid,pwdInvalid,isnotSamepwd} = storeToRefs(loginRegistStore)
 
+    const topLists = [
+        {title: '个人简历',path: '/introduction'},
+        {title: '对话生成器',path: '/faketalk'},
+        {title: '拼图',path: '/puzzle'}
+    ]
 // 开关弹窗
     function showModal () {
-    isModalOpen.value = true
+        isModalOpen.value = true
     }
     function hideModal () {
-    isModalOpen.value = false
+        isModalOpen.value = false
+        loginRegistStore.clearInput()
     }
-// 登陆注册tab切换清空
-const activeTab = ref('login');
-    function clearInput(){
-        username.value = '';
-        password.value = '';
-        logUsername.value = '';
-        logPassword.value = '';
-        passwordAgain.value = '';
-        accInvalid.value = false;
-        pwdInvalid.value = false;
-        isnotSamepwd.value = false;
-    }
-    function switchTab(tab) {
-    if (activeTab.value !== tab) {
-        clearInput();
-        activeTab.value = tab;
-    }
-}
-    async function regist() {
-        if (!accInvalid.value && !pwdInvalid.value && !isnotSamepwd.value && logUsername.value && logPassword.value && passwordAgain.value) {
-            await loginRegistStore.regist()      
-        } else {
-            alert('你都没看提示齁')
-        }
+    function switchTab(tab) {loginRegistStore.storeSwitchTab(tab);}
+
+    function regist() {
+        loginRegistStore.regist()
     }
     
-    async function login() {
-        if (!accInvalid.value && !pwdInvalid.value && username.value && password.value) {
-            await loginRegistStore.login()      
-        } else {
-            alert('你都没看提示齁')
-        }
+    function login() {
+        loginRegistStore.login()
     }
     // 登陆注册共用相同验证方式
     function verifyAccount (value) {
-        accInvalid.value = !loginRegistStore.verifyAccount(value)
+        loginRegistStore.storeVerifyAccount(value)
     }
     function verifyPsssword (value) {
-        pwdInvalid.value = !loginRegistStore.verifyPsssword(value)
-        // 检查 passwordAgain 是否存在
-        if (passwordAgain.value) {
-            verifySecPsssword(); // 调用回调函数
-        } else {
-            return; // 没有 passwordAgain 时不做任何事情
-        }
+        loginRegistStore.storeVerifyPsssword(value)
     }
     function verifySecPsssword () {
-        isnotSamepwd.value = !loginRegistStore.verifySecPsssword()
+        loginRegistStore.storeVerifySecPsssword()
     }
 </script>
 
@@ -248,7 +211,7 @@ const activeTab = ref('login');
             display: flex;
             width: 100%;
             height: 100px;
-            background: linear-gradient(rgb(245, 19, 11), rgb(60, 130, 235));
+            background: linear-gradient(rgb(224, 236, 238), rgb(60, 130, 235));
         }
         .mainheader .container{
             display: flex;
@@ -259,7 +222,7 @@ const activeTab = ref('login');
             
         }
         .mainheader .container .logo img{
-            width: 250px;
+            width: 200px;
             object-fit: cover;
         }
         .mainheader nav {

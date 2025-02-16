@@ -126,5 +126,24 @@
             </div>
         </div>
     </div>
+    <script>
+        const puzzlesFive = ([]);
+let index = 0;
+for (let i = 0; i < 5; i++) {
+  for (let j = 0; j < 5; j++) {
+    puzzlesFive.push({
+      id: index,
+      top: `${i * 20}%`,
+      left: `${j * 20}%`,
+      position: i*20+ '% ' + j*20 + '%',
+      opacity: 1,
+      index: index
+    });
+    index++;
+  }
+};
+console.log(puzzlesFive);
+
+    </script>
 </body>
 </html>

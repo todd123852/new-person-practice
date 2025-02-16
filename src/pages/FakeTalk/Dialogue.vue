@@ -2,15 +2,29 @@
       <div class="main">
         <div class="rightPart">
             <div class="container">
-                <div class="head">
-                    <div class="leftStatus">
-                        <span>11:26</span>
+                <div class="headCotent">
+                    <div class="head">
+                        <div class="leftStatus">
+                            <span>11:26</span>
+                        </div>
+                        <div class="rightStatus">
+                            <span>5G</span>
+                            <i class="bi bi-reception-4"></i>
+                            <i class="bi bi-wifi"></i>
+                            <i class="bi bi-battery-half" id="battery"></i>
+                        </div>
                     </div>
-                    <div class="rightStatus">
-                        <span>5G</span>
-                        <i class="bi bi-reception-4"></i>
-                        <i class="bi bi-wifi"></i>
-                        <i class="bi bi-battery-half" id="battery"></i>
+                    <div class="topAvator">
+                        <div class="topAvatorLeft">
+                            <i class="bi bi-chevron-left"></i>
+                            <img v-if="(imgLeftUrl === null || imgLeftUrl === 'null')" :src="defImg">
+                            <img v-else :src="imgLeftUrl">
+
+                        </div>
+                        <div class="topAvatorRight">
+                            <i class="bi bi-telephone-fill"></i>
+                            <i class="bi bi-camera-video-fill"></i>
+                        </div>
                     </div>
                 </div>
                 <div class="body" ref="chatContainer">
@@ -33,42 +47,44 @@
                             </div>
                         </div>
                     </div> -->
-                    <div v-for="(message, index) in messages" :key="message.key" :class="{'message': true, 
-                    'chatTime': message.user === 'timeUser', 
-                    'leftUser': message.user === 'left', 
-                    'rightUser': message.user === 'right', 
-                    'continued': index > 0 && isContinued(index)
-                    }">
-                        <!-- 时间戳 -->
-                        <div v-if="message.user === 'timeUser'" class="chatTime">
-                            {{ message.text }}
-                            <a @click="emit('delMessage', message.key)">
-                                <i class="bi bi-x-circle-fill timeDel"></i>
-                            </a>
-                        </div>
-                        <!-- 对话串 -->
-                        <div v-else class="message-container">
-                            <div class="chat-bubble" :class="message.user === 'left' ? 'user1' : 'user2'">
-                                <div :class="message.user === 'left' ? 'cnotentLeft' : 'cnotentRight'">
-                                    <img v-if="message.user === 'left' && (imgLeftUrl === null || imgLeftUrl === 'null')" :src="defImg">
-                                    <img v-else-if="message.user === 'right' && imgRightUrl === 'null' || imgRightUrl === null" :src="defImg">
-
-                                    <img v-else-if="message.user === 'left'" :src="imgLeftUrl">
-                                    <img v-else-if="message.user === 'right'" :src="imgRightUrl">
-
-                                    <!-- 渲染对话 -->
-                                    <p>{{ message.text }}</p>
-                                </div>
-                                <!-- 删除图标 -->
+                    <TransitionGroup name="chatContent" @enter="onAfterEnter">
+                        <div v-for="(message, index) in messages" :key="message.key" :class="{'message': true, 
+                        'chatTime': message.user === 'timeUser', 
+                        'leftUser': message.user === 'left', 
+                        'rightUser': message.user === 'right', 
+                        'continued': index > 0 && isContinued(index)
+                        }">
+                            <!-- 时间戳 -->
+                            <div v-if="message.user === 'timeUser'" class="chatTime">
+                                {{ message.text }}
                                 <a @click="emit('delMessage', message.key)">
-                                    <i class="bi bi-x-circle-fill"
-                                    :class="message.user === 'right' ? 'rightDel' : 'leftDel'"
-                                    ></i>
+                                    <i class="bi bi-x-circle-fill timeDel"></i>
                                 </a>
                             </div>
+                            <!-- 对话串 -->
+                            <div v-else class="message-container">
+                                <div class="chat-bubble" :class="message.user === 'left' ? 'user1' : 'user2'">
+                                    <div :class="message.user === 'left' ? 'cnotentLeft' : 'cnotentRight'">
+                                        <img v-if="message.user === 'left' && (imgLeftUrl === null || imgLeftUrl === 'null')" :src="defImg">
+                                        <img v-else-if="message.user === 'right' && imgRightUrl === 'null' || imgRightUrl === null" :src="defImg">
+    
+                                        <img v-else-if="message.user === 'left'" :src="imgLeftUrl">
+                                        <img v-else-if="message.user === 'right'" :src="imgRightUrl">
+    
+                                        <!-- 渲染对话 -->
+                                        <p>{{ message.text }}</p>
+                                    </div>
+                                    <!-- 删除图标 -->
+                                    <a @click="emit('delMessage', message.key)">
+                                        <i class="bi bi-x-circle-fill"
+                                        :class="message.user === 'right' ? 'rightDel' : 'leftDel'"
+                                        ></i>
+                                    </a>
+                                </div>
+                            </div>
+                            
                         </div>
-                        
-                    </div>
+                    </TransitionGroup>
                 </div>
 
                 <div class="foot">
@@ -97,9 +113,9 @@ onMounted(() => {
     chatContainer.value.scrollTop = chatContainer.value.scrollHeight;
 })
 // 页面更新时划到最底部
-onUpdated(() => {
+function onAfterEnter() {
     chatContainer.value.scrollTop = chatContainer.value.scrollHeight;
-})
+}
 // 检测是否连续对话，是的话就减少间距
 function isContinued(index) {
     return messages.length > 0 && index > 0 && messages[index].user === messages[index - 1].user;
@@ -112,6 +128,13 @@ const emit = defineEmits(['delMessage'])
 <style scoped>
     * {
         font-family: "Microsoft YaHei", sans-serif;
+    }
+    .chatContent-enter-active {
+        transition: all 0.5s ease-in;
+    }
+    .chatContent-enter-from{
+        opacity: 0;
+        transform: translateX(10px);
     }
     i {
         margin-left: 3px;
@@ -131,20 +154,24 @@ const emit = defineEmits(['delMessage'])
         flex-direction: column;
         padding: 0;
     }
+    .headCotent{
+        height: 12%;
+    }
     .head {
         display: flex;
         width: 100%;
-        height: 5%;
-        padding: 5px 15px;
+        height: 40%;
+        padding: 3px 10px;
         position: relative;
         box-sizing: border-box;
+        justify-content: space-between;
     }
     .leftStatus {
         margin: 0;
         position: relative;
     }
     .rightStatus {
-        position: absolute;
+        line-height: 25px;
         right: 5px;
         top: 2px;
     }
@@ -155,6 +182,28 @@ const emit = defineEmits(['delMessage'])
         margin: 0;
         line-height: 3px;
     }
+    .topAvator {
+        display: flex;
+        height: 65%;
+        width: 100%;
+        justify-content: space-between;
+        padding: 3px 15px 3px 3px;
+        color: black;
+    }
+    .topAvator img{
+        width: 35px;
+        height: 35px;
+        border-radius: 100px;
+        margin-left: 5px;
+    }
+    .topAvatorLeft,.topAvatorRight{
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+    .topAvatorRight .bi {
+        margin-left: 15px;
+    }
     .material-icons{
         top: -1px;
         position: absolute;
@@ -162,7 +211,9 @@ const emit = defineEmits(['delMessage'])
     }
     .bi {
         font-size: 20px;
+        color: black;
     }
+    
 
     /* //////////////// body /////////////// */
     .body {
