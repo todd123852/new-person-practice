@@ -29,7 +29,7 @@
  import { usePuzzleStore } from '@/store/Puzzle';
  import { storeToRefs } from 'pinia';
 const puzzleStore = usePuzzleStore()
-const base = process.env.NODE_ENV === 'production' ? 'new-person-practice':'..'
+const base = process.env.NODE_ENV === 'production' ? '/new-person-practice':'..'
 const {readyGo,puzzles, hours, seconds,minutes,isComplete,photoNumber} = storeToRefs(puzzleStore)
 
     puzzleStore.setOriginalPuzzle(6);

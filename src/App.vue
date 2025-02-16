@@ -1,5 +1,5 @@
 <template>
-  <div id="app1" v-if="$route.path === '/'">
+  <div id="app1" v-if="$route.path === base+'/'">
     <router-view></router-view>
   </div>
   <div id="app1" v-else>
@@ -13,6 +13,7 @@
 <script setup>
 import Bottom from './components/Bottom.vue';
 import Top from './components/Top.vue';
+const base = process.env.NODE_ENV === 'production' ? '/new-person-practice':''
 </script>
 
 <style>
