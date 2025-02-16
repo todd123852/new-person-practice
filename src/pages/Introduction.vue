@@ -1,7 +1,7 @@
 <template>
   <div class="aboutMe">
     <h1>About Me</h1>
-    <h2>I'm Min Ru Lu/吕旻儒</h2>
+    <h2>I'm Hotto/厚的</h2>
     <p>一个自学半年的前端工程师</p>
     <p>熟悉JavaScript, HTML，CSS，Vue框架，Bootstrap，AJAX应用</p>
     <p>了解Webpack，Git基本使用</p>
