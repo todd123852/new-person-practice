@@ -3,24 +3,24 @@
         <div class="puzzleBox">
             <div v-for="piece in puzzles" :key="piece.id" class="puzzle" 
             :style="{ top: piece.top, left: piece.left, backgroundPosition: piece.position, opacity: piece.opacity,
-            backgroundImage:`url(/src/public/puzzle${photoNumber}.jpg)`}" 
+            backgroundImage:`url(../src/public/puzzle${photoNumber}.jpg)`}" 
             @click="change(piece.index,piece.id)"
             >
             </div>
         </div>
         
         <transition name="fade">
-        <div class="startGame" v-show="readyGo">
-            <div class="startImg" @click="ready"></div>
-        </div>
+            <div class="startGame" v-show="readyGo">
+                <div class="startImg" @click="ready"></div>
+            </div>
         </transition>
 
-        <transition name="isComplete">
+        <Transition name="isComplete">
             <div class="finishGame" v-show="isComplete">
                 <h3>完成时间:</h3>
                 <span>{{ hours }}:{{ minutes }}:{{ seconds }}</span>
             </div>
-        </transition>
+        </Transition>
     </div>
 </template>
 
@@ -34,7 +34,7 @@ const {readyGo,puzzles, hours, seconds,minutes,isComplete,photoNumber} = storeTo
 
 
     puzzleStore.setOriginalPuzzle(3)
-    
+
     onMounted(()=>{console.log(puzzles);})
     // 聚焦拼图
     const puzzleContent = ref(null); 

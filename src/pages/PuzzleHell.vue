@@ -3,7 +3,7 @@
          <div class="puzzleBox">
              <div v-for="piece in puzzles" :key="piece.id" class="puzzle" 
              :style="{ top: piece.top, left: piece.left, backgroundPosition: piece.position, opacity: piece.opacity,
-             backgroundImage:`url(/src/public/puzzle${photoNumber}.jpg)`}" 
+             backgroundImage:`url(../src/public/puzzle${photoNumber}.jpg)`}" 
              @click="change(piece.index,piece.id)"
              >
              </div>

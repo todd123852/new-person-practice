@@ -166,6 +166,7 @@ export const usePuzzleStore = defineStore('Puzzle', () => {
     const photoNumber = ref(1)
     function storeChangePhoto() {
         cleanTimer();
+        puzzles[puzzles.length-1].opacity = 1
         photoNumber.value < 5 ? photoNumber.value += 1 :photoNumber.value = 1;
         puzzles.map(piece => piece.index = piece.id);
         updatePuzzlePositions()
@@ -206,7 +207,7 @@ export const usePuzzleStore = defineStore('Puzzle', () => {
             updatePuzzlePositions()
         }, 600)
     }
-    const debouncedShuffle = debounce(shuffle, 400);
+    const debouncedShuffle = debounce(shuffle, 1000);
     function updatePuzzlePositions () {
         puzzles.forEach( piece => {
             //根据当前的拼图大小，进行原始定位

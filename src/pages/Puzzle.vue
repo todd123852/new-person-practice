@@ -9,14 +9,13 @@
                 <button type="button" class="btn btn-primary" @click="replay" :disabled="readyGo">这局不算<i class="bi bi-arrow-counterclockwise"></i></button>
                 <!-- 换一张图 -->
                 <button type="button" class="btn btn-primary" @click="changePhoto()"
-
                 >换一张图<i class="bi bi-arrow-counterclockwise"></i></button>
             </div>
             <div class="level">
                 <h3>难度等级:</h3>
                 <div class="levelButton">
-                    <router-link v-for="level in levels" :key=level.path :to="level.path"
-                    class="levelLink">
+                    <router-link v-for="level in levels" :key=level.path :to="level.path" @click="changePhoto()"
+                    class="levelLink" active-class="activeLink">
                         {{ level.name }}
                     </router-link>
                 </div>
@@ -31,7 +30,8 @@
                 </div>
                 <div class="completeTime">
                     <h3>花费时间:</h3>
-                    <span>{{ hours }}:{{ minutes }}:{{ seconds }}</span>
+                    <div>{{ hours }}:{{ minutes }}:{{ seconds }}</div>
+                    <div class="reverse">{{ hours }}:{{ minutes }}:{{ seconds }}</div>
                 </div>
             </div>
         </div>
@@ -62,8 +62,28 @@ const {readyGo, hours, seconds,minutes,photoNumber} = storeToRefs(puzzleStore)
     * {
         color: #fff;
     }
-    .completeTime span {
-        font-size: 40px;
+    .activeLink{
+        background-color: #fff;
+        color: black;
+        font-weight: 1000;
+        font-size: 22px;
+    }
+    .completeTime {
+        position: relative;
+
+    }
+    .completeTime div {
+        font-size: 80px;
+    }
+    .completeTime .reverse {
+        position: absolute;
+        top: 45%;
+        transform: scaleY(-1);
+        opacity: 0.2;
+        color: transparent;
+        background: linear-gradient(to bottom, rgba(139, 136, 136, 0.863), rgba(201, 199, 199, 0.664)); /* 顏色從淺到深的漸變 */
+        -webkit-background-clip: text; /* 剪裁背景以適應文字 */
+        background-clip: text;
     }
     .completeContent {
         display: flex;
@@ -110,8 +130,13 @@ const {readyGo, hours, seconds,minutes,photoNumber} = storeToRefs(puzzleStore)
         align-items: center;
         margin: 10px;
         text-decoration: none;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     }
-    
+    .levelLink:hover {
+        background-color: #fff;
+        color: black;
+        font-weight: 1000;
+    }
     .totally{
         visibility: hidden;
     }
