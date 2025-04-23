@@ -18,7 +18,8 @@ export const useloginRegistStore = defineStore('loginRegist',{
                 });
                 console.log(response.data); // 輸出伺服器回應的資料
                 this.registOrLoading = '<span>注册</span>'
-                this.isModalOpen = false
+                this.isModalOpen = false;
+                this.clearInput();
                 } catch (error:any) {
                     this.registOrLoading = '<span>注册</span>'
                     alert(error.response.data.message)
@@ -40,7 +41,9 @@ export const useloginRegistStore = defineStore('loginRegist',{
                     });
                     console.log(response.data); // 輸出伺服器回應的資料
                     this.loginOrLoading = '<span>登陆</span>'
-                    this.isModalOpen = false
+                    this.isModalOpen = false;
+                    this.clearInput();
+                    localStorage.setItem('username', JSON.stringify(this.username));
                 } catch (error:any) {
                     this.loginOrLoading = '<span>登陆</span>'
                     alert(error.response.data.message)
@@ -64,7 +67,7 @@ export const useloginRegistStore = defineStore('loginRegist',{
         },
         // 登陆注册tab切换清空
         clearInput(){
-            this.username = '';
+            //this.username = '';
             this.password = '';
             this.logUsername = '';
             this.logPassword = '';
@@ -78,7 +81,7 @@ export const useloginRegistStore = defineStore('loginRegist',{
                 this.clearInput();
                 this.activeTab = tab;
             }
-        }
+        },
     },
     state () {
         return {

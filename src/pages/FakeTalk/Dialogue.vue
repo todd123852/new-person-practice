@@ -19,7 +19,7 @@
                             <i class="bi bi-chevron-left"></i>
                             <img v-if="(imgLeftUrl === null || imgLeftUrl === 'null')" :src="defImg">
                             <img v-else :src="imgLeftUrl">
-
+                            <span class="hisName">{{ hisName }}</span>
                         </div>
                         <div class="topAvatorRight">
                             <i class="bi bi-telephone-fill"></i>
@@ -28,25 +28,6 @@
                     </div>
                 </div>
                 <div class="body" ref="chatContainer">
-                    <!-- 左/右边的人讲话 用v-for
-                    <div class="leftUser">
-                        <div class="chat-bubble user1">
-                            <div class="cnotentLeft">
-                                <img src="@/public/defaultavatar.jpg" alt="">
-                                <p>Hello</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    右边的人讲话
-                    <div class="rightUser">
-                        <div class="chat-bubble user2">
-                            <div class="cnotentRight">
-                                <img src="@/public/defaultavatar.jpg" alt="">
-                                <p>I'm good, thank you!</p>
-                            </div>
-                        </div>
-                    </div> -->
                     <TransitionGroup name="chatContent" @enter="onAfterEnter">
                         <div v-for="(message, index) in messages" :key="message.key" :class="{'message': true, 
                         'chatTime': message.user === 'timeUser', 
@@ -75,7 +56,9 @@
                                         <p>{{ message.text }}</p>
                                     </div>
                                     <!-- 删除图标 -->
-                                    <a @click="emit('delMessage', message.key)">
+                                    <a @click="emit('delMessage', message.key)"
+                                    v-show="showDelBtn"
+                                    >
                                         <i class="bi bi-x-circle-fill"
                                         :class="message.user === 'right' ? 'rightDel' : 'leftDel'"
                                         ></i>
@@ -99,13 +82,18 @@
             </div>
         </div>
     </div>
+    <button 
+    class="btn btn-primary"
+    @click="showDelBtn = !showDelBtn">
+    {{ showDelBtn ? '隐藏' : '展示' }}删除图标
+    </button>
 
 </template>
 
 <script setup>
-import { ref, onMounted, onUpdated } from 'vue';
+import { ref, onMounted } from 'vue';
 // 解构方式接收
-const {messages, imgRightUrl, imgLeftUrl} = defineProps(['messages','imgRightUrl','imgLeftUrl'])
+const {messages, imgRightUrl, imgLeftUrl, hisName} = defineProps(['messages','imgRightUrl','imgLeftUrl', 'hisName'])
 const defImg = 'https://cdn1.cybassets.com/media/W1siZiIsIjE2NzgwL3Byb2R1Y3RzLzUyNjI0ODI5LzE3MzU1ODM1MzVfOWJiZWJmMmIyZmYyY2M5MTMxMTYuanBlZyJdLFsicCIsInRodW1iIiwiNjAweDYwMCJdXQ.jpeg?sha=92897887875d225f'
 let chatContainer = ref(null)
 // 页面加载时划到最底部
@@ -123,11 +111,22 @@ function isContinued(index) {
 
 // 删除业务
 const emit = defineEmits(['delMessage'])
+const showDelBtn = ref(true)
+
 </script>
 
 <style scoped>
     * {
         font-family: "Microsoft YaHei", sans-serif;
+    }
+    .hisName {
+        margin-left: 5px;
+        font-weight: 600;
+        font-size: 18px;
+    }
+    .btn {
+        height: 50px;
+        background-color: limegreen;
     }
     .chatContent-enter-active {
         transition: all 0.5s ease-in;

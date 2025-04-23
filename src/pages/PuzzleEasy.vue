@@ -1,9 +1,17 @@
 <template>
    <div class="puzzleCotent" @keydown="arrowControl($event)" tabindex="0" ref="puzzleContent">
         <div class="puzzleBox">
-            <div v-for="piece in puzzles" :key="piece.id" class="puzzle" 
-            :style="{ top: piece.top, left: piece.left, backgroundPosition: piece.position, opacity: piece.opacity,
-            backgroundImage:`url(${base}/src/public/puzzle${photoNumber}.jpg)`}" 
+            <div v-for="piece in puzzles" 
+            :key="piece.id" 
+            class="puzzle"
+            :style="{ 
+                backgroundSize: level.size + '%',
+                width: level.width + '%',
+                height: level.width + '%',
+                top: piece.top, left: piece.left, 
+                backgroundPosition: piece.position, 
+                opacity: piece.opacity,
+                backgroundImage:`url(${base}/src/public/puzzle${photoNumber}.jpg)`}" 
             @click="change(piece.index,piece.id)"
             >
             </div>
@@ -25,17 +33,15 @@
 </template>
 
 <script setup>
-import { ref,nextTick,onMounted } from 'vue';
+import { ref,nextTick } from 'vue';
 import { usePuzzleStore } from '@/store/Puzzle';
 import { storeToRefs } from 'pinia';
 
 const puzzleStore = usePuzzleStore();
 const {readyGo,puzzles, hours, seconds,minutes,isComplete,photoNumber} = storeToRefs(puzzleStore);
+const {level} = defineProps(['level'])
+const base = process.env.NODE_ENV === 'production' ? '/new-person-practice':'..';
 
-const base = process.env.NODE_ENV === 'production' ? '/new-person-practice':'..'
-    puzzleStore.setOriginalPuzzle(3)
-
-    onMounted(()=>{console.log(puzzles);})
     // 聚焦拼图
     const puzzleContent = ref(null); 
     function ready() { 
@@ -60,9 +66,4 @@ const base = process.env.NODE_ENV === 'production' ? '/new-person-practice':'..'
 
 <style scoped>
 @import '/src/assets/Puzzle.css';
-.puzzle {
-   background-size:300%;
-   width: 33.3%;
-   height: 33.3%;
-}
 </style>

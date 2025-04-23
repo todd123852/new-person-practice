@@ -1,6 +1,6 @@
 <template>
     <div class="puzzleContainer">
-        <router-view></router-view>
+        <PuzzleEasy :level="selectLevel"></PuzzleEasy>
         <div class="levelAndShow">
             <div class="rules">
                 <h3>玩法说明:</h3>
@@ -14,17 +14,21 @@
             <div class="level">
                 <h3>难度等级:</h3>
                 <div class="levelButton">
-                    <router-link v-for="level in levels" :key=level.path :to="level.path" @click="changePhoto()"
-                    class="levelLink" active-class="activeLink">
-                        {{ level.name }}
-                    </router-link>
+                    <div v-for="level in levels"
+                    :key=level.path 
+                    @click="changeLevel(level.key)"
+                    class="levelLink"
+                    :class="{'activeLink': level.key === selectBtn}"
+                    >
+                    {{ level.name }}
+                    </div>
                 </div>
             </div>
             <div class="completeContent">
                 <div class="completePhoto">
                     <h3>完成图:</h3>
                     <div class="originalPicture" 
-                    :style="{backgroundImage:`url(/src/public/puzzle${photoNumber}.jpg)`}"
+                    :style="{backgroundImage:`url(${base}/src/public/puzzle${photoNumber}.jpg)`}"
                     >
                     </div>
                 </div>
@@ -41,8 +45,20 @@
 <script setup>
 import { usePuzzleStore } from '@/store/Puzzle';
 import { storeToRefs } from 'pinia';
+import { ref, onBeforeUnmount, onMounted } from 'vue';
+import PuzzleEasy from './PuzzleEasy.vue';
 const puzzleStore = usePuzzleStore()
-const {readyGo, hours, seconds,minutes,photoNumber} = storeToRefs(puzzleStore)
+const {readyGo, hours, seconds,minutes,photoNumber,setOriginalPuzzle} = storeToRefs(puzzleStore)
+const base = process.env.NODE_ENV === 'production' ? '/new-person-practice':'..';
+const levels = [
+    {name:'简单', size: 300, width: 33.3, pieces: 3, key: 0},
+    {name:'普通', size: 400, width: 25, pieces: 4, key: 1},
+    {name:'困难', size: 500, width: 20, pieces: 5, key: 2},
+    {name:'地狱', size: 600, width: 16.6, pieces: 6, key: 3},
+]
+const selectBtn = ref(0)
+let selectLevel = {...levels[selectBtn.value]}
+onMounted(() => puzzleStore.setOriginalPuzzle(3))
     // 重新开始
     function replay() {
         puzzleStore.cleanTimer()
@@ -50,12 +66,17 @@ const {readyGo, hours, seconds,minutes,photoNumber} = storeToRefs(puzzleStore)
     function changePhoto() {
         puzzleStore.storeChangePhoto()
     }
-    const levels = [
-        {name:'简单', path:'easy'},
-        {name:'普通', path:'medium'},
-        {name:'困难', path:'hard'},
-        {name:'地狱', path:'hell'},
-    ]
+    function changeLevel(level) {  
+        puzzleStore.setOriginalPuzzle(levels[level].pieces);
+        changePhoto();
+        selectBtn.value = level;
+        selectLevel = {...levels[level]};
+    }
+    onBeforeUnmount(()=> {
+        selectBtn.value = 0;
+        changePhoto();
+        puzzleStore.setOriginalPuzzle(3);
+    })
 </script>
 
 <style scoped>
@@ -119,6 +140,8 @@ const {readyGo, hours, seconds,minutes,photoNumber} = storeToRefs(puzzleStore)
         width: 80%;
         min-width: 80%;
         align-items: center;
+        cursor: pointer;
+        user-select: none;
     }
     .levelButton .levelLink {
         min-width: 100px;

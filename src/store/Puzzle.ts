@@ -166,7 +166,7 @@ export const usePuzzleStore = defineStore('Puzzle', () => {
     const photoNumber = ref(1)
     function storeChangePhoto() {
         cleanTimer();
-        puzzles[puzzles.length-1].opacity = 1
+        puzzles[puzzles.length-1].opacity = 1;
         photoNumber.value < 5 ? photoNumber.value += 1 :photoNumber.value = 1;
         puzzles.map(piece => piece.index = piece.id);
         updatePuzzlePositions()

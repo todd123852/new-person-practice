@@ -1,5 +1,5 @@
 <template>
-  <div id="app1" v-if="$route.path === base+'/'">
+  <div id="app1" v-if="$route.path === '/'">
     <router-view></router-view>
   </div>
   <div id="app1" v-else>

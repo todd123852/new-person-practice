@@ -1,18 +1,20 @@
 <template>
   <div class="mainheader">
         <div class="container">
-            <a href="#" class="logo">
+            <router-link class="logo" :to="mainPage">
                 <img src="@/public/Hotto.png" alt="">
-            </a>
+            </router-link>
         </div>
         <nav>
             <!-- 列表区 -->
             <router-link v-for="list in topLists" :key="list.path" :to="list.path" class="top-link" active-class="isYellow">{{ list.title }}</router-link>
             <div class="topSearch">    
-                <button @click="showModal"
+                <button v-if="!isLoged" 
+                @click="showModal"
                 type="button" class="btn btn-primary" >
                 登錄/註冊
                 </button>
+                <span v-else>欢迎回来，{{ username }}</span>
                 <!-- 弹窗页面 -->
                      <div 
                      :class="{ show: isModalOpen }" v-show="isModalOpen"
@@ -144,23 +146,34 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useloginRegistStore } from '@/store/loginRegist';
 const loginRegistStore = useloginRegistStore()
 let {username, password,logUsername, logPassword,passwordAgain,loginOrLoading,registOrLoading, isModalOpen,accInvalid,pwdInvalid,isnotSamepwd} = storeToRefs(loginRegistStore)
-
+    const isLoged = ref(false)
+    // 加载后查看是否已登陆
+    function checkLoged() {
+        username.value = JSON.parse(localStorage.getItem('username'));
+        if (username.value) {
+            isLoged.value = true
+        }
+    }
+    onMounted(() => checkLoged())
+    watch(isModalOpen, () => checkLoged())
+    const mainPage = '/'
     const topLists = [
         {title: '个人简历',path: '/introduction'},
         {title: '对话生成器',path: '/faketalk'},
         {title: '拼图',path: '/puzzle'}
     ]
+    const myForm = ref(null)
 // 开关弹窗
     function showModal () {
         isModalOpen.value = true
     }
     function hideModal () {
-        isModalOpen.value = false
+        isModalOpen.value = false;
         loginRegistStore.clearInput()
     }
     function switchTab(tab) {loginRegistStore.storeSwitchTab(tab);}

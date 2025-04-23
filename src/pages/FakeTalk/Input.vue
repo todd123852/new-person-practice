@@ -168,7 +168,8 @@
         </div>
      <!-- 输入对话框 -->
         <div class="setContent">
-            <span>输入对话(左): </span><br>
+            <span>输入对话(左): </span>
+            <input type="text" v-model="hisName" placeholder="请输入对方名称"><br>
             <div class="type-area">
                 <textarea v-model="leftContent"></textarea>
                 <button  @click="subFirstContent" type="button" class="btn btn-primary">发送</button>
@@ -217,6 +218,7 @@
     :imgLeftUrl="imgLeftUrl"
     :imgRightUrl="imgRightUrl"
     :messages = messages
+    :hisName = hisName
     @delMessage="delMessage"
     ></Content>
 </div>
@@ -232,7 +234,7 @@ let noonTime = ref('上午')
 let leftContent = ref(''), rightContent = ref('')
 let imgLeftUrl = ref(localStorage.getItem('imgLeftUrl') || null)
 let imgRightUrl = ref(localStorage.getItem('imgRightUrl') || null)
-
+const hisName = ref('')
 // 上传图片
 function upLoadleftImage(e) {
     const file = e.target.files[0]; // 从 event.target.files 获取文件
