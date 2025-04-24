@@ -1,6 +1,9 @@
 <template>
     <div class="puzzleContainer">
-        <PuzzleEasy :level="selectLevel"></PuzzleEasy>
+        <PuzzleEasy 
+        :level="selectLevel"
+        :puzzleImgs="puzzleImgs"
+        ></PuzzleEasy>
         <div class="levelAndShow">
             <div class="rules">
                 <h3>玩法说明:</h3>
@@ -28,7 +31,7 @@
                 <div class="completePhoto">
                     <h3>完成图:</h3>
                     <div class="originalPicture" 
-                    :style="{backgroundImage:`url(${base}/src/public/puzzle${photoNumber}.jpg)`}"
+                    :style="{backgroundImage:`url(${puzzleImgs[photoNumber-1]}`}"
                     >
                     </div>
                 </div>
@@ -43,13 +46,19 @@
 </template>
 
 <script setup>
+
 import { usePuzzleStore } from '@/store/Puzzle';
 import { storeToRefs } from 'pinia';
 import { ref, onBeforeUnmount, onMounted } from 'vue';
 import PuzzleEasy from './PuzzleEasy.vue';
+import puzzle1 from '@/public/puzzle1.jpg';
+import puzzle2 from '@/public/puzzle2.jpg';
+import puzzle3 from '@/public/puzzle3.jpg';
+import puzzle4 from '@/public/puzzle4.jpg';
+import puzzle5 from '@/public/puzzle5.jpg';
 const puzzleStore = usePuzzleStore()
 const {readyGo, hours, seconds,minutes,photoNumber,setOriginalPuzzle} = storeToRefs(puzzleStore)
-const base = process.env.NODE_ENV === 'production' ? '/new-person-practice':'..';
+const puzzleImgs = [puzzle1, puzzle2, puzzle3, puzzle4, puzzle5]
 const levels = [
     {name:'简单', size: 300, width: 33.3, pieces: 3, key: 0},
     {name:'普通', size: 400, width: 25, pieces: 4, key: 1},

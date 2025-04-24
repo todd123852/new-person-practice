@@ -12,7 +12,7 @@
 }
 
 .isComplete-enter-active {
-    transition: opacity 2s;
+    transition: opacity 5s;
 }
 .isComplete-enter-from,.isComplete-leave-to{
     opacity: 0;
@@ -40,9 +40,6 @@
 .startImg:hover {
     transform: scale(1.2);
 }
-/* .totally{
-    visibility: hidden;
-} */
 .puzzleContainer {
     display: flex;
     position: relative;

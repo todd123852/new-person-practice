@@ -1,21 +1,27 @@
 <template>
    <div class="puzzleCotent" @keydown="arrowControl($event)" tabindex="0" ref="puzzleContent">
-        <div class="puzzleBox">
-            <div v-for="piece in puzzles" 
-            :key="piece.id" 
-            class="puzzle"
-            :style="{ 
-                backgroundSize: level.size + '%',
-                width: level.width + '%',
-                height: level.width + '%',
-                top: piece.top, left: piece.left, 
-                backgroundPosition: piece.position, 
-                opacity: piece.opacity,
-                backgroundImage:`url(${base}/src/public/puzzle${photoNumber}.jpg)`}" 
-            @click="change(piece.index,piece.id)"
-            >
+        <Transition name="puzzle-fade">
+            <div class="puzzleBox">
+                <div v-for="piece in puzzles" 
+                :key="piece.id" 
+                class="puzzle"
+                :class="{
+                'fade-in': index === puzzles.length - 1 && piece.opacity === 1,
+                'fade-out': index === puzzles.length - 1 && piece.opacity === 0
+                }"
+                :style="{ 
+                    backgroundSize: level.size + '%',
+                    width: level.width + '%',
+                    height: level.width + '%',
+                    top: piece.top, left: piece.left, 
+                    backgroundPosition: piece.position, 
+                    opacity: piece.opacity,
+                    backgroundImage:`url(${puzzleImgs[photoNumber-1]})`}" 
+                @click="change(piece.index,piece.id)"
+                >
+                </div>
             </div>
-        </div>
+        </Transition>
         
         <transition name="fade">
             <div class="startGame" v-show="readyGo">
@@ -39,9 +45,7 @@ import { storeToRefs } from 'pinia';
 
 const puzzleStore = usePuzzleStore();
 const {readyGo,puzzles, hours, seconds,minutes,isComplete,photoNumber} = storeToRefs(puzzleStore);
-const {level} = defineProps(['level'])
-const base = process.env.NODE_ENV === 'production' ? '/new-person-practice':'..';
-
+const {level, puzzleImgs} = defineProps(['level', 'puzzleImgs'])
     // 聚焦拼图
     const puzzleContent = ref(null); 
     function ready() { 

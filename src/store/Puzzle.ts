@@ -54,7 +54,7 @@ export const usePuzzleStore = defineStore('Puzzle', () => {
     }
  
     // 更换位置逻辑 id 是不会变得， index在每次交换位置后交换，因此index就是拼图的位置
-    function storechange(pieceIndex:number, pieceID:number) {
+    async function storechange(pieceIndex:number, pieceID:number) {
         if (canExchange(pieceIndex)) {
             const last = puzzles.length - 1
             const tempTop = puzzles[last].top;
@@ -72,7 +72,7 @@ export const usePuzzleStore = defineStore('Puzzle', () => {
             isComplete.value = storecheckIfCompleted()
             if (isComplete.value) {
                 puzzles[last].opacity = 1;
-                stopTimer()
+                stopTimer();
             }
         } else {
             console.log('不能换');
