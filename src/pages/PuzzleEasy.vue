@@ -1,28 +1,21 @@
 <template>
    <div class="puzzleCotent" @keydown="arrowControl($event)" tabindex="0" ref="puzzleContent">
-        <Transition name="puzzle-fade">
-            <div class="puzzleBox">
-                <div v-for="piece in puzzles" 
-                :key="piece.id" 
-                class="puzzle"
-                :class="{
-                'fade-in': index === puzzles.length - 1 && piece.opacity === 1,
-                'fade-out': index === puzzles.length - 1 && piece.opacity === 0
-                }"
-                :style="{ 
-                    backgroundSize: level.size + '%',
-                    width: level.width + '%',
-                    height: level.width + '%',
-                    top: piece.top, left: piece.left, 
-                    backgroundPosition: piece.position, 
-                    opacity: piece.opacity,
-                    backgroundImage:`url(${puzzleImgs[photoNumber-1]})`}" 
-                @click="change(piece.index,piece.id)"
-                >
-                </div>
+        <div class="puzzleBox">
+            <div v-for="piece in puzzles" 
+            :key="piece.id" 
+            class="puzzle"
+            :style="{ 
+                backgroundSize: level.size + '%',
+                width: level.width + '%',
+                height: level.width + '%',
+                top: piece.top, left: piece.left, 
+                backgroundPosition: piece.position, 
+                opacity: piece.opacity,
+                backgroundImage:`url(${puzzleImgs[photoNumber-1]})`}" 
+            @click="change(piece.index,piece.id)"
+            >
             </div>
-        </Transition>
-        
+        </div>        
         <transition name="fade">
             <div class="startGame" v-show="readyGo">
                 <div class="startImg" @click="ready"></div>

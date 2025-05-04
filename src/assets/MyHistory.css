@@ -1,0 +1,139 @@
+.timeline {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-width: 800px;
+  margin: 0 auto;
+  padding: 50px 50px;
+  background-attachment: fixed; /* 关键属性：固定背景相对于视口 */
+  background-size: cover; /* 通常设置为 cover，以覆盖整个区域 */
+  background-position: center; /* 将图片居中显示 */
+  background-repeat: no-repeat; /* 通常不重复背景图片 */
+}
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 4px;
+    background-color: #ccc;
+    transform: translateX(-50%);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin: 20px 0;
+    width: 100%;
+    clear: both;
+  }
+
+  .timeline-marker {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    transform: translateX(-50%);
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.5));
+  }
+
+  .timeline-marker img {
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+  }
+
+  .timeline-content {
+    position: relative;
+    width: 45%;
+    padding: 15px;
+    background-color: #000000;
+    border-radius: 5px;
+    color: #fff;
+  }
+  .timeline-content h3 {
+    font-weight: 600;
+      line-height: 15px;
+  }
+  /* 奇数项内容靠左 */
+  .timeline-item:nth-child(odd) .timeline-content {
+    left: -3px;
+    right: auto; /* 确保不会同时设置 left 和 right */
+    color: #000000;
+    background-color:#fff;
+  }
+
+  /* 偶数项内容靠右 */
+  .timeline-item:nth-child(even) .timeline-content {
+      right: -55%;
+      left: auto; /* 确保不会同时设置 left 和 right */
+      border: solid 1px #000000;
+  }
+  .summary {
+    margin-bottom: 5px;
+  }
+
+  .read-more {
+    background: none;
+    border: none;
+    color: #3498db;
+    cursor: pointer;
+    padding: 0;
+    font-size: 0.9em;
+  }
+
+  .read-more:hover {
+    text-decoration: underline;
+  }
+
+  /* 调整箭头的位置 */
+  .timeline-content::before {
+    content: '';
+    position: absolute;
+    top: 13px;
+    border: solid 15px transparent;
+    border-color: transparent transparent transparent #fff;
+    right: 0;
+    transform: translateX(99%);
+  }
+
+  /* 偶数项的箭头指向右侧 */
+  .timeline-item:nth-child(even) .timeline-content::before {
+      left: 0;
+      transform: translateX(-100%);
+    border-color: transparent #000000 transparent transparent;
+  }
+
+  /* 调整小屏幕上的显示 */
+  @media screen and (max-width: 768px) {
+    .timeline::before {
+      left: 20px;
+    }
+    .timeline-item .timeline-marker {
+      left: 20px;
+    }
+    .timeline-item .timeline-content {
+      width: 90%;
+      margin-left: 40px;
+      margin-right: 0;
+    }
+    .timeline-item .timeline-content::before {
+      left: -16px;
+    }
+    .timeline-item:nth-child(even) .timeline-content {
+      left: 40px;
+      right: auto;
+    }
+    .timeline-item:nth-child(even) .timeline-content::before {
+      left: -16px;
+      right: auto;
+      border-color: transparent #f9f9f9 transparent transparent;
+    }
+  }

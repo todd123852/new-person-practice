@@ -1,0 +1,16 @@
+import CSS from '@/public/icon/CSS.svg'
+import HTML5 from '@/public/icon/HTML5.svg'
+import npm from '@/public/icon/npm.svg'
+import React from '@/public/icon/React.svg'
+import VsCode from '@/public/icon/VsCode.svg'
+import Vue from '@/public/icon/Vue.svg'
+import JS from '@/public/icon/JS.svg'
+import TS from '@/public/icon/TS.svg'
+import Github from '@/public/icon/GitHub.svg'
+import Git from '@/public/icon/Git.svg'
+import Bootstrap from '@/public/icon/Bootstrap.png'
+import Lodash from '@/public/icon/Lodash.png'
+import google from '@/public/icon/google-apps-script.png'
+import func from '@/public/icon/funtion.svg'
+
+export default {CSS, HTML5, JS, TS, React, Vue, npm, VsCode, Github, Git, Bootstrap, Lodash, google, func}

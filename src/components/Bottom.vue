@@ -1,37 +1,12 @@
 <template>
     <div class="main-footer">
     <div class="footerItem">
-      <div class="container">
-        <h4>关于我们</h4>
+      <div class="container" v-for="info in infos" :key="info.tittle">
+        <h4>{{ info.tittle }}</h4>
           <nav>
-            <a href="#">生平</a>
-            <a href="#">出生地</a>
-            <a href="#">家庭</a>
-            <a href="#">小孩</a>
+            <a href="#" v-for="li in info.content" :key="li">{{ li }}</a>
           </nav>        
       </div>
-  
-      <div class="container">
-        <h4>合作方</h4>
-          <nav>
-            <a href="#">JILI</a>
-            <a href="#">PG电子</a>
-            <a href="#">BG电子</a>
-            <a href="#">WL真人</a>
-          </nav>
-      </div>
-  
-      <div class="container">
-        <h4>牌照资质</h4>
-          <nav>
-            <a href="#">幼稚园毕业</a>
-            <a href="#">国小毕业</a>
-            <a href="#">高中毕业</a>
-            <a href="#">大学没毕业</a>
-          </nav>
-        
-      </div>
-
       <div class="container">
         <h4>联系方式</h4>
         <div class="sub">
@@ -44,8 +19,11 @@
     </div>
 
     <div class="bottom">
-      <div class="licenesImg">
-          放图片的地方。。。
+      <div class="icons-place">
+          <img v-for="icon in allIcons" 
+          class="icon"
+          :key="icon"
+          :src=icon alt="">
       </div>
       <div class="copyright">
         Copyright &copy; 2025
@@ -56,18 +34,38 @@
   </div>
 </template>
 
-<script>
-export default {
+<script setup>
+import icons from '@/store/logoBus'
+const {CSS, HTML5, JS, TS, React, Vue, npm, VsCode} = icons;
+const infos = [
+  {tittle: '关于我们', content: ['生平','出生地','家庭','小孩']},
+  {tittle: '合作方', content: ['Bootstrap','JavaScript','React','Vue','Webpack']},
+  {tittle: '牌照资质', content: ['幼稚园毕业','国小毕业','高中毕业','大学没毕业']}
+]
 
-}
+const allIcons = [CSS, HTML5, JS, TS, React, Vue, npm, VsCode]
+
 </script>
 
 <style scoped>
+  .icons-place {
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .icon {
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+  }
   .main-footer {
     background-color: rgb(0, 0, 0);
-    height: 50vh;
+    height: auto;
   }
   .main-footer .footerItem {
+    position: relative;
     display: flex;
     justify-content: center;
     width: 100%;

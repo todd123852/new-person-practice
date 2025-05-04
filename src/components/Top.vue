@@ -165,7 +165,8 @@ let {username, password,logUsername, logPassword,passwordAgain,loginOrLoading,re
     const topLists = [
         {title: '个人简历',path: '/introduction'},
         {title: '对话生成器',path: '/faketalk'},
-        {title: '拼图',path: '/puzzle'}
+        {title: '拼图',path: '/puzzle'},
+        {title: '学习历程',path: '/myHistory'}
     ]
     const myForm = ref(null)
 // 开关弹窗
